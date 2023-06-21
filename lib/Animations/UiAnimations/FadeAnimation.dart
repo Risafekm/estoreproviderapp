@@ -23,9 +23,9 @@ class _FadeAnimationState extends State<FadeAnimation>
       duration: const Duration(milliseconds: 1000),
     );
     final curve =
-        CurvedAnimation(parent: _controller, curve: Curves.bounceInOut);
-    animation = Tween(begin: 0.0, end: 1.0).animate(_controller);
-    _scale = Tween(begin: 0.0, end: 2.0).animate(curve);
+        CurvedAnimation(parent: _controller, curve: Curves.easeOutCirc);
+    animation = Tween(begin: 0.0, end: 2.0).animate(_controller);
+    _scale = Tween(begin: 0.0, end: 1.0).animate(curve);
   }
 
   @override

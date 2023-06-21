@@ -1,9 +1,13 @@
+import 'dart:math';
+
 import 'package:estoreproviderapp/Provider/ProviderCart.dart';
+import 'package:estoreproviderapp/Provider/ProviderFavorite.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../Animations/UiAnimations/FavAnimationIcon.dart';
+import '../../Animations/UiAnimations/likeAnimation.dart';
 import 'ProductPage.dart';
 
 // ignore: must_be_immutable
@@ -29,7 +33,8 @@ class _GridCardItemsState extends State<GridCardItems> {
 
   @override
   Widget build(BuildContext context) {
-    var productCart = context.watch<ProviderCart>().items;
+    var productCart = context.watch<ProviderFavorite>().items;
+    var mycart = context.watch<ProviderFavorite>().cartItems;
 
     return isLoading
         ? Container(
@@ -39,7 +44,20 @@ class _GridCardItemsState extends State<GridCardItems> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 //GridView.builder
-
+                Padding(
+                  padding: const EdgeInsets.only(left: 15.0, top: 5),
+                  child: Text(
+                    'End of Season Sale',
+                    style: GoogleFonts.lora(
+                      textStyle: const TextStyle(
+                        fontSize: 17,
+                        color: Colors.black,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 14),
                 GridView.builder(
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
@@ -51,7 +69,9 @@ class _GridCardItemsState extends State<GridCardItems> {
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: ((context, index) {
-                      final item = productCart[index];
+                      //
+                      var item = productCart[index];
+
                       return Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
@@ -76,14 +96,28 @@ class _GridCardItemsState extends State<GridCardItems> {
                                 //Item images
 
                                 Hero(
-                                    tag: 'tag-1-${item.images.toString()}',
-                                    transitionOnUserGestures: true,
-                                    child: Image.network(
+                                  tag: 'tag-1-${item.images.toString()}',
+                                  transitionOnUserGestures: true,
+                                  child: Container(
+                                    height: 250,
+                                    width: 200,
+                                    decoration: BoxDecoration(
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: Colors.grey.shade100,
+                                            blurRadius: 10.0,
+                                            spreadRadius: 0.4,
+                                            offset: const Offset(0, 1)),
+                                      ],
+                                    ),
+                                    child: Image.asset(
                                       item.images.toString(),
                                       fit: BoxFit.cover,
                                       height: 250,
                                       width: 200,
-                                    )),
+                                    ),
+                                  ),
+                                ),
                                 //itemName
 
                                 Padding(
@@ -148,10 +182,37 @@ class _GridCardItemsState extends State<GridCardItems> {
 
                                       // FavANimationIcon
 
-                                      const Positioned(
+                                      Positioned(
                                         right: 25,
                                         top: -5,
-                                        child: FavAnimationIcon(),
+                                        // child: FavAnimationIcon(),
+                                        child: IconButton(
+                                          onPressed: () async {
+                                            await Future.delayed(const Duration(
+                                                milliseconds: 100));
+                                            try {
+                                              if (mycart.contains(item)) {
+                                                // ignore: use_build_context_synchronously
+                                                context
+                                                    .read<ProviderFavorite>()
+                                                    .removeFromfavorite(item);
+                                              } else {
+                                                // ignore: use_build_context_synchronously
+                                                context
+                                                    .read<ProviderFavorite>()
+                                                    .addTOfavorite(item);
+                                              }
+                                            } catch (e) {
+                                              print('Error');
+                                            }
+                                          },
+                                          icon: Icon(
+                                            Icons.favorite,
+                                            color: mycart.contains(item)
+                                                ? Colors.red
+                                                : Colors.grey,
+                                          ),
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -233,15 +294,21 @@ class _GridCardItemsState extends State<GridCardItems> {
                     Container(
                       height: 250,
                       width: 200,
-                      color: Colors.white,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
                     ),
                     //itemName
 
                     Padding(
                       padding: const EdgeInsets.all(6.0),
                       child: Container(
-                        height: 20,
-                        color: Colors.white,
+                        height: 15,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
                       ),
                     ),
 
@@ -255,9 +322,12 @@ class _GridCardItemsState extends State<GridCardItems> {
                           Row(
                             children: [
                               Container(
-                                height: 20,
+                                height: 13,
                                 width: 100,
-                                color: Colors.white,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(4),
+                                ),
                               ),
                             ],
                           ),
@@ -277,14 +347,21 @@ class _GridCardItemsState extends State<GridCardItems> {
                       child: Row(
                         children: [
                           Container(
-                            height: 20,
+                            height: 10,
                             width: 40,
-                            color: Colors.white,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(4),
+                            ),
                           ),
+                          const SizedBox(width: 5),
                           Container(
-                            height: 20,
-                            width: 30,
-                            color: Colors.white,
+                            height: 10,
+                            width: 40,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(4),
+                            ),
                           ),
                         ],
                       ),

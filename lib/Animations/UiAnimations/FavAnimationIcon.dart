@@ -2,6 +2,8 @@ import 'package:estoreproviderapp/Provider/ProviderCart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../Provider/ProviderFavorite.dart';
+
 class FavAnimationIcon extends StatefulWidget {
   const FavAnimationIcon({Key? key}) : super(key: key);
 
@@ -72,12 +74,11 @@ class _FavAnimationIconState extends State<FavAnimationIcon>
 
   @override
   Widget build(BuildContext context) {
+    var mycart = context.watch<ProviderFavorite>().cartItems;
+    var productCart = context.watch<ProviderFavorite>().items;
     return AnimatedBuilder(
       animation: _controller,
-      builder: (
-        BuildContext context,
-        Widget? _,
-      ) {
+      builder: (BuildContext context, Widget? _) {
         return IconButton(
           onPressed: () {
             isFav ? _controller.reverse() : _controller.forward();

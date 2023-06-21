@@ -11,7 +11,7 @@ List<BrandModel> brandItems = [
       images:
           'https://www.simplilearn.com/ice9/free_resources_article_thumb/Learn_How_to_Build_a_Timeless_Brand_with_Nike_Marketing_Strategy.jpg'),
   BrandModel(
-      name: 'Addidas',
+      name: 'Adidas',
       images: 'https://www.designboom.com/tools/WPro/images/rid11/ad2.jpg'),
   BrandModel(
       name: 'Puma',
@@ -34,7 +34,7 @@ List<BrandModel> brandItems = [
       images:
           'https://www.simplilearn.com/ice9/free_resources_article_thumb/Learn_How_to_Build_a_Timeless_Brand_with_Nike_Marketing_Strategy.jpg'),
   BrandModel(
-      name: 'Addidas',
+      name: 'Adidas',
       images: 'https://www.designboom.com/tools/WPro/images/rid11/ad2.jpg'),
   BrandModel(
       name: 'Puma',

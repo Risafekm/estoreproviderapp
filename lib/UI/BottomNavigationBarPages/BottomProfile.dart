@@ -134,11 +134,14 @@ class BottomProfile extends StatelessWidget {
         Container(
           height: 200,
           width: double.infinity,
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-              fit: BoxFit.cover,
-              image: NetworkImage(
-                  'https://akm-img-a-in.tosshub.com/indiatoday/images/story/202209/305487416_191058916633862_1245_1200x768.jpeg?VersionId=rsPH731Lvu36dA2fimFaehFotD2lp5Xt'),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Colors.blue,
+                Colors.blue.shade100,
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.center,
             ),
           ),
         ),

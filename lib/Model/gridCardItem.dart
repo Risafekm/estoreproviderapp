@@ -4,11 +4,13 @@ class GridCardItem {
   String? itemPrice;
   String? itemmainPrice;
   String? itemStar;
+  int count = 0;
 
   GridCardItem(
       {required this.images,
       required this.itemName,
       required this.itemPrice,
       required this.itemmainPrice,
-      required this.itemStar});
+      required this.itemStar,
+      required this.count});
 }

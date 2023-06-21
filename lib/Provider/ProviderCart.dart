@@ -2,9 +2,9 @@ import 'package:estoreproviderapp/Model/gridCardItem.dart';
 import 'package:flutter/material.dart';
 
 class ProviderCart extends ChangeNotifier {
-  int _count = 0;
+  int _countValue = 0;
 
-  List<GridCardItem> _items = [
+  final List<GridCardItem> _items = [
     GridCardItem(
       images:
           'https://rukminim1.flixcart.com/image/750/900/l0y6qa80/dress/v/a/s/xl-western-dress-512-purvaja-original-imagcmcfzs328pjt.jpeg?q=70',
@@ -12,6 +12,7 @@ class ProviderCart extends ChangeNotifier {
       itemPrice: '₹469',
       itemmainPrice: '₹1250',
       itemStar: '3.9',
+      count: 0,
     ),
     GridCardItem(
       images:
@@ -20,6 +21,7 @@ class ProviderCart extends ChangeNotifier {
       itemPrice: '₹449',
       itemmainPrice: '₹990',
       itemStar: '3.9',
+      count: 1,
     ),
     GridCardItem(
       images:
@@ -28,6 +30,7 @@ class ProviderCart extends ChangeNotifier {
       itemPrice: '₹474',
       itemmainPrice: '₹1450',
       itemStar: '4.0',
+      count: 2,
     ),
     GridCardItem(
       images:
@@ -36,6 +39,7 @@ class ProviderCart extends ChangeNotifier {
       itemPrice: '₹413',
       itemmainPrice: '₹1040',
       itemStar: '4.0',
+      count: 3,
     ),
     GridCardItem(
       images:
@@ -44,6 +48,7 @@ class ProviderCart extends ChangeNotifier {
       itemPrice: '₹760',
       itemmainPrice: '₹850',
       itemStar: '4.6',
+      count: 4,
     ),
     GridCardItem(
       images: 'https://m.media-amazon.com/images/I/31u5qnHW4RL.jpg',
@@ -51,6 +56,7 @@ class ProviderCart extends ChangeNotifier {
       itemPrice: '₹581',
       itemmainPrice: '₹1050',
       itemStar: '4.2',
+      count: 5,
     ),
   ];
 
@@ -60,31 +66,47 @@ class ProviderCart extends ChangeNotifier {
   int _cartItemsCount = 0;
 
   void addCount() {
-    if (_count == 0 || _count > 0) {
-      _count++;
+    if (_countValue == 0 || _countValue > 0) {
+      _countValue++;
       notifyListeners();
     }
   }
 
   void subCount() {
-    if (_count > 0) {
-      _count--;
+    if (_countValue > 0) {
+      _countValue--;
       notifyListeners();
     }
   }
 
-  void addTOCart(GridCardItem item) {
-    if (_cartItems.isEmpty) {
-      _cartItems.add(item);
+  void addTocart(GridCardItem item) {
+    if (_cartItems.contains(item)) {
+      _cartItems[_cartItems.indexOf(item)].count++;
     } else {
-      _cartItems.remove(item);
+      _cartItems.add(item);
+      _cartItems[_cartItems.indexOf(item)].count = 1;
+      _items[_items.indexOf(item)].count = 1;
+    }
+    _cartItemsCount++;
+    notifyListeners();
+  }
+
+  void removeFromcart(GridCardItem item) {
+    if (_cartItems.contains(item) &&
+        _cartItems[_cartItems.indexOf(item)].count == 1) {
+      _items[_items.indexOf(item)].count = 0;
+      _cartItems.remove(_cartItems[_cartItems.indexOf(item)]);
+      _cartItemsCount--;
+    } else if (_cartItems[_cartItems.indexOf(item)].count > 0) {
+      _cartItems[_cartItems.indexOf(item)].count--;
+      _cartItemsCount--;
     }
     notifyListeners();
   }
 
   //get
 
-  int get count => _count;
+  int get count => _countValue;
 
   List<GridCardItem> get items => _items;
   List<GridCardItem> get cartItems => _cartItems;

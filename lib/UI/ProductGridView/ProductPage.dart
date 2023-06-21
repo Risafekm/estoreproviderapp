@@ -1,8 +1,11 @@
+import 'package:estoreproviderapp/Provider/ProviderCart.dart';
 import 'package:estoreproviderapp/UI/BottomNavigationBarPages/BottomCart.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 import '../../Animations/PageRouteAnimations/PageRouteAnimaton.dart';
 import '../../Model/gridCardItem.dart';
+import '../../Provider/ProviderFavorite.dart';
 import '../Widgets/widget.dart';
 
 class ProductPage extends StatelessWidget {
@@ -11,6 +14,9 @@ class ProductPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var mycart = context.watch<ProviderCart>().cartItems;
+    var productCart = context.watch<ProviderCart>().items;
+
     return Scaffold(
       backgroundColor: Colors.grey[200],
       appBar: appbar(context),
@@ -98,10 +104,10 @@ class ProductPage extends StatelessWidget {
         Hero(
           tag: 'tag-1-${productitem.images.toString()}',
           transitionOnUserGestures: true,
-          child: Image.network(
+          child: Image.asset(
             productitem.images.toString(),
             fit: BoxFit.cover,
-            height: 500,
+            height: 600,
             width: MediaQuery.of(context).size.width,
           ),
         ),
